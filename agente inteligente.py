@@ -7,14 +7,14 @@ import os
 import time
 import sqlite3
 
-# 1. Configuración del modelo de lenguaje
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "tu-clave-aqui")  # Usar variable de entorno o clave directa
+#  Configuración del modelo de lenguaje
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "tu-clave-aqui")  
 llm = ChatOpenAI(model_name="gpt-4", temperature=0.5, openai_api_key=OPENAI_API_KEY)
 
-# 2. Memoria para recordar datos del corredor
+#  Memoria para recordar datos del corredor
 memory = ConversationBufferMemory(memory_key="history", return_messages=True)
 
-# 3. Configuración de la base de datos para almacenamiento histórico
+#  Configuración de la base de datos para almacenamiento histórico
 conn = sqlite3.connect("athlete_data.db")
 cursor = conn.cursor()
 cursor.execute('''CREATE TABLE IF NOT EXISTS athlete_monitoring (
@@ -25,7 +25,7 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS athlete_monitoring (
                 )''')
 conn.commit()
 
-# 4. Sensores simulados para monitorear salud del atleta
+#  Sensores simulados para monitorear salud del atleta
 def get_heart_rate():
     return random.randint(120, 190)  # Simulación de ritmo cardíaco
 
@@ -35,7 +35,7 @@ def get_hydration_level():
 def get_fatigue():
     return random.uniform(0, 1.0)  # Simulación de nivel de fatiga (0 a 1)
 
-# 5. Definición de herramientas
+#  Definición de herramientas
 heart_rate_tool = Tool(
     name="HeartRateSensor",
     func=get_heart_rate,
@@ -54,7 +54,7 @@ fatigue_tool = Tool(
     description="Obtiene el nivel de fatiga del atleta en tiempo real."
 )
 
-# 6. Definir el agente con LangChain
+#  Definir el agente con LangChain
 agent = initialize_agent(
     agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
     tools=[heart_rate_tool, hydration_tool, fatigue_tool],
@@ -63,7 +63,7 @@ agent = initialize_agent(
     memory=memory,
 )
 
-# 7. Implementación del Algoritmo A*
+#  Implementación del Algoritmo A*
 def heuristic(heart_rate, hydration, fatigue):
     return (heart_rate - 140) + ((1.0 - hydration) * 100) + (fatigue * 100)
 
@@ -93,7 +93,7 @@ def monitor_atleta():
     
     return alertas if alertas else ["✅ Ritmo y estado óptimos."]
 
-# 8. Monitoreo continuo en tiempo real
+#  Monitoreo continuo en tiempo real
 if __name__ == "__main__":
     print("🏃 Monitoreo en tiempo real del atleta 🏃")
     while True:
