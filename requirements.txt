@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+pyswip
+streamlit
+requests
+langchain
+openai
+sqlite3
